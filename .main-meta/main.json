@@ -34,13 +34,15 @@
          "content":{
             "metaDataVersion":"1.0.0",
             "category":"com.microchip.device",
-            "name":"xxxxxxxxxxxxxxx",
+            "name":"dsPIC33CK256MP508",
             "versionRange":"*"
          }
       },
       "keywords":[
-        "GPIO",
-		"UART"
+         "Motor Control",
+		 "FOC",
+		 "ADC",
+		 "PWM"
       ]
    }
 }

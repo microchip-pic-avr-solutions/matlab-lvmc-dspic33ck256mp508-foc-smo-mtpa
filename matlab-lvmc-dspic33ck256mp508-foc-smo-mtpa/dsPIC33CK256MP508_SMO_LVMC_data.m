@@ -27,25 +27,25 @@ Typecast_di = fixdt(1,16,10);
 %% System Parameters
 % Set motor parameters
 
-pmsm.model  = 'Hurst 300';      %           // Manufacturer Model Number
+pmsm.model  = 'ACT57BLF02';      %           // Manufacturer Model Number
 pmsm.sn     = '123456';         %           // Manufacturer Model Number
-pmsm.p  = 5;                    %           // Pole Pairs for the motor
-pmsm.Rs = 0.285;                %Ohm        // Stator Resistor
-pmsm.Ld = 2.8698e-4;            %H          // D-axis inductance value
-pmsm.Lq = 2.8698e-4;            %H          // Q-axis inductance value
-pmsm.Lav= (pmsm.Ld+pmsm.Lq)/2;  %H          // Average inductance
-pmsm.Ke = 7.3425;               %Bemf Const	// Vline_peak/krpm
-pmsm.Kt = 0.274;                %Nm/A       // Torque constant
-pmsm.J = 7.061551833333e-6;     %Kg-m2      // Inertia in SI units
-pmsm.B = 2.636875217824e-6;     %Kg-m2/s    // Friction Co-efficient
-pmsm.I_rated  = 3.42*sqrt(2);   %A      	// Rated current (phase-peak)
-pmsm.N_max    = 3200;           %rpm        // Max speed
-pmsm.N_rated  = 2896;           %rpm        // rated speed
-pmsm.f_rated  = (pmsm.N_rated*pmsm.p*2)/120;                %Hz    // Rated Frequency
-pmsm.w_rated_elec = pmsm.f_rated*2*pi;                      %rad/sec    // Rated electrical speed
-pmsm.w_base_elec = pmsm.w_rated_elec*1;                     %rad/sec    // Base electrical speed
-pmsm.FluxPM   = (pmsm.Ke)/(sqrt(3)*2*pi*1000*pmsm.p/60);    %PM flux computed from Ke
-pmsm.T_rated  = (3/2)*pmsm.p*pmsm.FluxPM*pmsm.I_rated;      %Get T_rated from I_rated
+pmsm.p  = 4;                    %           // Pole Pairs for the motor
+pmsm.Rs = 0.231436;                %Ohm        // Stator Resistor
+pmsm.Ld = 0.000102;           %H          // D-axis inductance value
+pmsm.Lq = 0.00013250000000000002;            %H          // Q-axis inductance value
+pmsm.Lav= (pmsm.Ld+pmsm.Lq)/2; 
+pmsm.Ke = 6.57;               %Bemf Const	// Vline_peak/krpm
+pmsm.Kt = 0.066;                %Nm/A       // Torque constant
+pmsm.J =  3.0080946e-05;     %Kg-m2      // Inertia in SI units
+pmsm.B = 4.588663799999999e-05;     %Kg-m2/s    // Friction Co-efficient
+pmsm.I_rated    = 9.01*sqrt(2);   %A      	// Rated current (phase-peak)
+pmsm.N_max      = 3000*1.5;           %rpm        // Max speed
+pmsm.N_rated    = 3000;
+pmsm.f_rated    = (pmsm.N_rated*pmsm.p*2)/120; %Hz    // Rated Frequency
+pmsm.w_rated_elec = pmsm.f_rated*2*pi; 
+pmsm.w_base_elec  = pmsm.w_rated_elec*1;
+pmsm.FluxPM   = (pmsm.Ke)/(sqrt(3)*2*pi*1000*pmsm.p/60); %PM flux computed from Ke
+pmsm.T_rated  = (3/2)*pmsm.p*pmsm.FluxPM*pmsm.I_rated;   %Get T_rated from I_rated
 
 %% Inverter parameters
 
@@ -53,17 +53,17 @@ inverter.model         = 'dsPIC33CK_LVMC';              % 		// Manufacturer Mode
 inverter.sn            = 'INV_XXXX';         		    % 		// Manufacturer Serial Number
 inverter.V_dc          = 24;       					    %V      // DC Link Voltage of the Inverter
 inverter.ISenseMax     = 21.85; 					    %Amps   // Max current that can be measured
-V_base                 = inverter.V_dc/sqrt(3); 	    %V      // Base voltage				
-i_base                 = inverter.ISenseMax;            %Amps   // Base voltage	
+V_base                 = inverter.V_dc/sqrt(3); 	    %V      // Base voltage					
+i_base                 = inverter.ISenseMax;            %Amps   // Base current
 z_base                 = V_base/i_base;                 %Ohms   // Base impedence
-pmsm.Rs_pu             = pmsm.Rs/z_base;                %unitless// Perunit resistance
 L_base                 = z_base/pmsm.w_base_elec;       %H      // Base inductance
-pmsm.Lav_pu            = pmsm.Lav/L_base;               %unitless// Perunit inductance
+pmsm.Lav_pu = pmsm.Lav/L_base;                          %unitless// Perunit inductance
+pmsm.Rs_pu = pmsm.Rs/z_base;                            %unitless// Perunit resistance
 pmsm.FluxPM_base       = V_base/pmsm.w_base_elec;       %Wb     // Base flux 
 pmsm.FluxPM_PU         = pmsm.FluxPM/pmsm.FluxPM_base;  %unitless // Perunit flux
-inverter.I_trip        = 10;                  		           %Amps   // Max current for trip
-inverter.Rds_on        = 1e-3;                                 %Ohms   // Rds ON
-inverter.Rshunt        = 0.01;                                 %Ohms   // Rshunt
+inverter.I_trip        = 10;                  		    %Amps   // Max current for trip
+inverter.Rds_on        = 1e-3;                          %Ohms   // Rds ON
+inverter.Rshunt        = 0.01;                          %Ohms   // Rshunt
 inverter.R_board       = inverter.Rds_on + inverter.Rshunt/3;  %Ohms
 inverter.MaxADCCnt     = 4095;      				    %Counts // ADC Counts Max Value
 inverter.invertingAmp  = -1;                            % 		// Non inverting current measurement amplifier
@@ -88,12 +88,15 @@ PI_params.delay_Position    = int32(Ts/Ts_simulink);
 PI_params.delay_Speed       = int32(Ts_speed/Ts_simulink);
 PI_params.delay_Speed1      = (PI_params.delay_IIR + 0.5*Ts)/Ts_speed;
 
-%% Field Weakining
-
-V_max       = (inverter.V_dc/sqrt(3))*0.9;
-Vs_max_pu   = V_max/PU_System.V_base;
-
 %% Open loop reference values
 T_Ref_openLoop          = 1;                    % Sec // Time for open-loop start-up
-Speed_Ref_openLoop      = 700;                  % RPM // Speed referene for open-loop start-up
-Iq_Ref_openLoop         = 0.55;                 % A   // Iq referene for open-loop start-up
+Speed_Ref_openLoop      = 900;                  % RPM // Speed referene for open-loop start-up
+Iq_Ref_openLoop         = 3;                 % A   // Iq referene for open-loop start-up
+
+
+%% Field Weakining
+
+V_max       = (inverter.V_dc/sqrt(3))*0.95;
+Vs_max_pu   = V_max/PU_System.V_base;
+pmsm.Ld_pu  = pmsm.Ld/L_base;
+pmsm.Lq_pu  = pmsm.Lq/L_base;

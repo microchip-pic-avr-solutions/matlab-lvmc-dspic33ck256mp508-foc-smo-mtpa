@@ -1,10 +1,10 @@
 ![image](images/microchip.png) 
 
-# MATLAB LVMC dsPIC33CK256MP508 FOC with Field Weakening & SMO
+# MATLAB LVMC dsPIC33CK256MP508 FOC with MTPA, Field Weakening & SMO
 
 ## 1. INTRODUCTION
 <p style='text-align: justify;'>
-This document describes the setup requirements for running the Sensorless FOC with field weakening algorithm and a Sliding Mode Observer (SMO), using MATLAB/Simulink and dsPIC33CK Low Voltage Motor Control (LVMC) Board.</p>
+This document describes the setup requirements for running the Sensorless FOC with maximum torque per ampere (MTPA) and field weakening algorithms where a Sliding Mode Observer (SMO) is used as the rotor speed estimator. This setup requires MATLAB/Simulink and a dsPIC33CK Low Voltage Motor Control (LVMC) Board.</p>
 <p style='text-align: justify;'>
 The SMO implementation is referenced from AN1078 “Sensorless Field Oriented Control of a PMSM”.
 </p>
@@ -32,10 +32,11 @@ The SMO implementation is referenced from AN1078 “Sensorless Field Oriented Co
 ### 2.3	Hardware Tools Required for the Demonstration
 - dsPIC33CK Low Voltage Motor Control (LVMC) Development Board ([DM330031](https://www.microchip.com/en-us/development-tool/DM330031))
 - 24V Power Supply ([AC002013](https://www.microchipdirect.com/dev-tools/AC002013)) 
-- 24V, 3-Phase Brushless DC Permanent Magnet Hurst Motor ([AC300022](https://www.microchip.com/en-us/development-tool/AC300022))
+- 24V, 3-Phase Brushless DC Permanent Magnet ACT Motor ([57BLF02](https://www.act-motor.com/brushless-dc-motor-57blf-product/))
 
 > **_NOTE:_**
->All items listed under this section Hardware Tools Required for the Demonstration are available at [microchip DIRECT](https://www.microchipdirect.com/).
+>All items listed under this section Hardware Tools Required for the Demonstration are available at [microchip DIRECT](https://www.microchipdirect.com/) except the ACT motor and the motor can be directly sourced from ([57BLF02](https://www.act-motor.com/brushless-dc-motor-57blf-product/)).
+
 
   
 ## 3. HARDWARE SETUP
@@ -70,7 +71,7 @@ The SMO implementation is referenced from AN1078 “Sensorless Field Oriented Co
     <p align="left" >
     <img  src="images/dem1.png"></p>
 
-3.	<p style='text-align: justify;'> Double click and open the .m file. This .m file contains the configuration parameter for the motor and board. By default, the .m file is configured to run Hurst 300 motor and LVMC board. Run the file by clicking the <b>“Run”</b> icon and wait till all variables gets loaded on the <b>‘Workspace’</b> tab.
+3.	<p style='text-align: justify;'> Double click and open the .m file. This .m file contains the configuration parameter for the motor and board. By default, the .m file is configured to run ACT motor (57BLF02) and LVMC board. Run the file by clicking the <b>“Run”</b> icon and wait till all variables gets loaded on the <b>‘Workspace’</b> tab.
 
     <p align="left">
       <img  src="images/dem2.png"></p>
@@ -120,7 +121,7 @@ The SMO implementation is referenced from AN1078 “Sensorless Field Oriented Co
       <img  src="images/pic18.png"></p> 
     </p>
 
-12.	The motor speed can be varied using the potentiometer (labeled <b>“POT1”</b>). Approximately, after 70% of the full potentiometer value (approximately at 3000 RPM), the motor enters into field weakening region.
+12.	The motor speed can be varied using the potentiometer (labeled <b>“POT1”</b>). Approximately, after 70% of the full potentiometer value (approximately at 3000 RPM), the motor enters into field weakening region and below this speed the motor performs MTPA operation.
 
     <p align="left">
       <img  src="images/pic19.png"></p>

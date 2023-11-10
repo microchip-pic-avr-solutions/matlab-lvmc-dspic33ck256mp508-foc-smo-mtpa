@@ -4,13 +4,13 @@
    "content":{
       "metaDataVersion":"1.0.0",
       "name":"com.microchip.matlab.project.matlab-lvmc-dspic33ck256mp508-foc-smo-mtpa",
-      "version":"x.x.x",
-      "displayName":"xxxxxxxxxxxxxxx",
+      "version":"1.0.0",
+      "displayName":"MATLAB-Simulink model for Sensorless FOC with MTPA and field weakening control using Sliding mode observer (SMO)",
       "projectName":"matlab-lvmc-dspic33ck256mp508-foc-smo-mtpa",
-      "shortDescription":"xxxxxxxxxxxxxxx",
+      "shortDescription":"MATLAB-Simulink model for Sensorless FOC with MTPA and field weakening control using Sliding mode observer  (SMO)",
       "simulationTool":{
          "name":"MATLAB/Simulink",
-         "semverRange":">=2022"
+         "semverRange":">=2023"
       },
 	  "addonPackages":[
 				"MATLAB add on packages",
@@ -25,8 +25,8 @@
          "semverRange":"^2.0.0"
       },
       "dfp":{
-         "name":"xxxxxxxxxxxxxxx",
-         "semverRange":">=x.x.x"
+         "name":"dsPIC33CK-MP_DFP",
+         "semverRange":">=1.6.176"
       },
       "device":{
          "metaDataVersion":"1.0.0",
